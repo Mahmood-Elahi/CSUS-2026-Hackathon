@@ -34,7 +34,7 @@ export const SKILL_ALIASES: Record<string, string[]> = {
 };
 
 
-export const TYPES = ["Competition Team", "Program", "Engineering Club", "Computer Science Club", "CPSC", "ENG"];
+export const TYPES = ["CPSC", "ENG"];
 
 
 export const ENGINEERING_MAJORS = [
