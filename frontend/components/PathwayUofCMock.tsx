@@ -108,6 +108,14 @@ function Card({ children, style }: any) {
 
 
 function Row({ o, added, onAdd, onRemove }: any) {
+  const matched = Array.isArray(o.matched) ? o.matched : [];
+  const tags = Array.isArray(o.tags) ? o.tags : [];
+
+  // Show matched skills first, then the remaining tags (no duplicates)
+  const matchedSet = new Set(matched);
+  const remaining = tags.filter((t: string) => !matchedSet.has(t));
+  const allSkillsOrdered = [...matched, ...remaining];
+
   return (
     <div
       style={{
@@ -136,23 +144,67 @@ function Row({ o, added, onAdd, onRemove }: any) {
         </div>
       </div>
 
-
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
         <Pill accent>{o.type}</Pill>
         <Pill>Effort: {o.effort}</Pill>
         <Pill>Deadline: {o.deadline}</Pill>
-        {(o.matched || []).slice(0, 3).map((m: string) => (
-          <Pill key={`${o.uid}-m-${m}`} accent>
+
+        {/* Keep a quick “at a glance” */}
+        {matched.slice(0, 3).map((m: string) => (
+          <Pill key={m} accent>
             {m}
           </Pill>
         ))}
+
+        {/* If there are more skills, show count */}
+        {allSkillsOrdered.length > 3 ? <Pill>+{allSkillsOrdered.length - 3} skills</Pill> : null}
       </div>
 
+      {/* Dropdown: show ALL skills/tags */}
+      <details
+        style={{
+          border: "1px solid rgba(255,255,255,0.10)",
+          borderRadius: 14,
+          padding: 10,
+          background: "rgba(255,255,255,0.04)",
+        }}
+      >
+        <summary
+          style={{
+            cursor: "pointer",
+            listStyle: "none",
+            fontWeight: 900,
+            color: "rgba(255,255,255,0.85)",
+            outline: "none",
+          }}
+        >
+          View all skills
+        </summary>
+
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 10 }}>
+          {allSkillsOrdered.map((t: string) => (
+            <Pill key={t} accent={matchedSet.has(t)}>
+              {t}
+            </Pill>
+          ))}
+        </div>
+
+        {matched.length ? (
+          <div style={{ marginTop: 10, fontSize: 12, color: "rgba(255,255,255,0.65)" }}>
+            Matched: {matched.length} / {tags.length}
+          </div>
+        ) : (
+          <div style={{ marginTop: 10, fontSize: 12, color: "rgba(255,255,255,0.65)" }}>
+            No matched skills (based on your selected skills).
+          </div>
+        )}
+      </details>
 
       <div style={{ fontSize: 13, color: "rgba(255,255,255,0.72)", lineHeight: 1.35 }}>{o.why}</div>
     </div>
   );
 }
+
 
 
 function Chip({ label, active, onClick }: any) {
@@ -698,10 +750,11 @@ export default function PathwayUofCMock() {
             </select>
 
 
+          {tab !== "home" ? (
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search"
+              placeholder="Search clubs"
               style={{
                 width: 320,
                 maxWidth: "80vw",
@@ -711,8 +764,10 @@ export default function PathwayUofCMock() {
                 outline: "none",
                 background: "rgba(255,255,255,0.06)",
                 color: "white",
-              }}
-            />
+                }}
+              />
+            ) : null}
+
 
 
             <Btn variant="secondary" onClick={handleProfileClick}>
