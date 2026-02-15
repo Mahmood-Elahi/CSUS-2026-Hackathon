@@ -348,7 +348,7 @@ function AuthModal({ open, onClose, signUp, signIn }: any) {
 
         {mode === "signup" ? (
           <div style={{ fontSize: 12, color: "rgba(255,255,255,0.65)", lineHeight: 1.4 }}>
-            If email confirmation is enabled in Supabase, check your inbox to verify.
+            Welcome to Pathway.
           </div>
         ) : null}
       </div>
