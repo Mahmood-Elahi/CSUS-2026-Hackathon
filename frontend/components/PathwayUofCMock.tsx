@@ -48,7 +48,7 @@ const SKILL_ALIASES: Record<string, string[]> = {
 };
 
 
-const TYPES = ["Competition Team", "Program", "Engineering Club", "Computer Science Club", "CPSC", "ENG"];
+const TYPES = ["CPSC", "ENG"];
 
 
 const ENGINEERING_MAJORS = [
