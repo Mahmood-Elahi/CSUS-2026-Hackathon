@@ -1,2 +1,5 @@
 This project is a website designed to help students easily discover and navigate extracurricular opportunities at the University of Calgary, tailored to the skillset they have or want to develop. Instead of searching across many different websites, emails, and social media pages, students can use one platform to find opportunities that match their interests and goals.
+
+
 (Built using Typescript/Python/Supabase/React)
+
